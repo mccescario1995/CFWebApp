@@ -173,11 +173,39 @@ namespace CFDatabaseAccessLibrary.DataAccess
             // Seeders 
             //--------------------------------------------
 
-            modelBuilder.Entity<Roles>().HasData(
-                new Roles { Id = 1, Name = "Customer", Description = "End-users who can submit feedback", Status = 1, Isdelete = 0, Createdbyuserid = 1, Modefiedbyuserid = 1 },
-                new Roles { Id = 2, Name = "Support", Description = "Team members who handle feedback", Status = 1, Isdelete = 0, Createdbyuserid = 1, Modefiedbyuserid = 1 },
-                new Roles { Id = 3, Name = "Admin", Description = "System administrators", Status = 1, Isdelete = 0, Createdbyuserid = 1, Modefiedbyuserid = 1 }
-            );
+            //modelBuilder.Entity<Roles>().HasData(
+            //    new Roles
+            //    {
+            //        Id = 1,
+            //        Name = "Customer",
+            //        Description = "End-users who can submit feedback",
+            //        Status = 1,
+            //        Isdelete = 0,
+            //        Createdbyuserid = 1,
+            //        Modefiedbyuserid = 1
+            //    },
+            //    new Roles 
+            //    { 
+            //        Id = 2, 
+            //        Name = "Support", 
+                    
+            //        Description = "Team members who handle feedback", 
+            //        Status = 1, 
+            //        Isdelete = 0, 
+            //        Createdbyuserid = 1, 
+            //        Modefiedbyuserid = 1 
+            //    },
+            //    new Roles 
+            //    { 
+            //        Id = 3, 
+            //        Name = "Admin", 
+            //        Description = "System administrators", 
+            //        Status = 1, 
+            //        Isdelete = 0, 
+            //        Createdbyuserid = 1, 
+            //        Modefiedbyuserid = 1 
+            //    }
+            //);
 
         }
     }

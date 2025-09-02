@@ -32,15 +32,14 @@ namespace CFDatabaseAccessLibrary.Models
 
         [Required]
         [Column("createddate")]
-        public DateTime Createddate { get; set; }
+        public DateTime Createddate { get; set; } = DateTime.Now;
 
         [Required]
         [Column("modefiedbyuserid")]
         public int Modefiedbyuserid { get; set; }
 
-        [Required]
         [Column("modefieddate")]
-        public DateTime Modefieddate { get; set; }
+        public DateTime Modefieddate { get; set; } = DateTime.Now;
 
         public virtual ICollection<Users> Users { get; set; }
     }

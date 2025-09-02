@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CFDatabaseAccessLibrary.Migrations
 {
     [DbContext(typeof(CFContext))]
-    [Migration("20250828143044_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250829085726_initmigration")]
+    partial class initmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -348,44 +348,6 @@ namespace CFDatabaseAccessLibrary.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("feedback_roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Createdbyuserid = 1,
-                            Createddate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "End-users who can submit feedback",
-                            Isdelete = (byte)0,
-                            Modefiedbyuserid = 1,
-                            Modefieddate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Customer",
-                            Status = (byte)1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Createdbyuserid = 1,
-                            Createddate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Team members who handle feedback",
-                            Isdelete = (byte)0,
-                            Modefiedbyuserid = 1,
-                            Modefieddate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Support",
-                            Status = (byte)1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Createdbyuserid = 1,
-                            Createddate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "System administrators",
-                            Isdelete = (byte)0,
-                            Modefiedbyuserid = 1,
-                            Modefieddate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Name = "Admin",
-                            Status = (byte)1
-                        });
                 });
 
             modelBuilder.Entity("CFDatabaseAccessLibrary.Models.UserAddresses", b =>

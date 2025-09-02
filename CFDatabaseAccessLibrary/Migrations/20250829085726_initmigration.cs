@@ -3,12 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
-
 namespace CFDatabaseAccessLibrary.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,12 +22,12 @@ namespace CFDatabaseAccessLibrary.Migrations
                     industry = table.Column<string>(type: "varchar(100)", nullable: false),
                     companysize = table.Column<string>(type: "varchar(50)", nullable: false),
                     website = table.Column<string>(type: "varchar(255)", nullable: false),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 1),
-                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 0),
+                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)1),
+                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)0),
                     createdbyuserid = table.Column<int>(type: "int", nullable: false),
-                    createddate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    createddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modefiedbyuserid = table.Column<int>(type: "int", nullable: false),
-                    modefieddate = table.Column<DateTime>(type: "datetime", nullable: false)
+                    modefieddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,12 +42,12 @@ namespace CFDatabaseAccessLibrary.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 1),
-                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 0),
+                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)1),
+                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)0),
                     createdbyuserid = table.Column<int>(type: "int", nullable: false),
-                    createddate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: "GETDATE()"),
+                    createddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modefiedbyuserid = table.Column<int>(type: "int", nullable: false),
-                    modefieddate = table.Column<DateTime>(type: "datetime", nullable: false, defaultValue: "GETDATE()")
+                    modefieddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,12 +63,12 @@ namespace CFDatabaseAccessLibrary.Migrations
                     email = table.Column<string>(type: "varchar(50)", nullable: false),
                     password = table.Column<string>(type: "varchar(20)", nullable: false),
                     roleid = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 1),
-                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 0),
+                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)1),
+                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)0),
                     createdbyuserid = table.Column<int>(type: "int", nullable: false),
-                    createddate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    createddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modefiedbyuserid = table.Column<int>(type: "int", nullable: false),
-                    modefieddate = table.Column<DateTime>(type: "datetime", nullable: false)
+                    modefieddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -93,12 +91,12 @@ namespace CFDatabaseAccessLibrary.Migrations
                     departmentname = table.Column<string>(type: "varchar(100)", nullable: false),
                     departmentcode = table.Column<string>(type: "varchar(20)", nullable: false),
                     manageruserid = table.Column<int>(type: "int", nullable: true),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 1),
-                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 0),
+                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)1),
+                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)0),
                     createdbyuserid = table.Column<int>(type: "int", nullable: false),
-                    createddate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    createddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modefiedbyuserid = table.Column<int>(type: "int", nullable: false),
-                    modefieddate = table.Column<DateTime>(type: "datetime", nullable: false)
+                    modefieddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,12 +128,12 @@ namespace CFDatabaseAccessLibrary.Migrations
                     feedbackstatus = table.Column<string>(type: "varchar(20)", nullable: false),
                     category = table.Column<string>(type: "varchar(100)", nullable: false),
                     assignedtouserid = table.Column<int>(type: "int", nullable: true),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 1),
-                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 0),
+                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)1),
+                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)0),
                     createdbyuserid = table.Column<int>(type: "int", nullable: false),
-                    createddate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    createddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modefiedbyuserid = table.Column<int>(type: "int", nullable: false),
-                    modefieddate = table.Column<DateTime>(type: "datetime", nullable: false)
+                    modefieddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,12 +166,12 @@ namespace CFDatabaseAccessLibrary.Migrations
                     postalcode = table.Column<string>(type: "varchar(20)", nullable: false),
                     country = table.Column<string>(type: "varchar(100)", nullable: false),
                     isprimary = table.Column<byte>(type: "tinyint", nullable: false),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 1),
-                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 0),
+                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)1),
+                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)0),
                     createdbyuserid = table.Column<int>(type: "int", nullable: false),
-                    createddate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    createddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modefiedbyuserid = table.Column<int>(type: "int", nullable: false),
-                    modefieddate = table.Column<DateTime>(type: "datetime", nullable: false)
+                    modefieddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -197,12 +195,12 @@ namespace CFDatabaseAccessLibrary.Migrations
                     lastname = table.Column<string>(type: "varchar(100)", nullable: false),
                     phonenumber = table.Column<string>(type: "varchar(20)", nullable: false),
                     profileimageurl = table.Column<string>(type: "varchar(200)", nullable: false),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 1),
-                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 0),
+                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)1),
+                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)0),
                     createdbyuserid = table.Column<int>(type: "int", nullable: false),
-                    createddate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    createddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modefiedbyuserid = table.Column<int>(type: "int", nullable: false),
-                    modefieddate = table.Column<DateTime>(type: "datetime", nullable: false)
+                    modefieddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -227,12 +225,12 @@ namespace CFDatabaseAccessLibrary.Migrations
                     jobtitle = table.Column<string>(type: "varchar(100)", nullable: false),
                     employeeid = table.Column<string>(type: "varchar(50)", nullable: false),
                     startdate = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 1),
-                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 0),
+                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)1),
+                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)0),
                     createdbyuserid = table.Column<int>(type: "int", nullable: false),
-                    createddate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    createddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modefiedbyuserid = table.Column<int>(type: "int", nullable: false),
-                    modefieddate = table.Column<DateTime>(type: "datetime", nullable: false)
+                    modefieddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -267,12 +265,12 @@ namespace CFDatabaseAccessLibrary.Migrations
                     userid = table.Column<int>(type: "int", nullable: false),
                     comment = table.Column<string>(type: "varchar(1000)", nullable: false),
                     isinternal = table.Column<byte>(type: "tinyint", nullable: false),
-                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 1),
-                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: 0),
+                    status = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)1),
+                    isdelete = table.Column<byte>(type: "tinyint", nullable: false, defaultValue: (byte)0),
                     createdbyuserid = table.Column<int>(type: "int", nullable: false),
-                    createddate = table.Column<DateTime>(type: "datetime", nullable: false),
+                    createddate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     modefiedbyuserid = table.Column<int>(type: "int", nullable: false),
-                    modefieddate = table.Column<DateTime>(type: "datetime", nullable: false)
+                    modefieddate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -289,16 +287,6 @@ namespace CFDatabaseAccessLibrary.Migrations
                         principalTable: "feedback_users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.InsertData(
-                table: "feedback_roles",
-                columns: new[] { "id", "createdbyuserid", "description", "modefiedbyuserid", "name", "status" },
-                values: new object[,]
-                {
-                    { 1, 1, "End-users who can submit feedback", 1, "Customer", 1 },
-                    { 2, 1, "Team members who handle feedback", 1, "Support", 1 },
-                    { 3, 1, "System administrators", 1,"Admin", 1 }
                 });
 
             migrationBuilder.CreateIndex(
