@@ -1,23 +1,32 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace CFDatabaseAccessLibrary.Models
 {
-    [Table("feedback_roles")]
-    public class Roles
+    [Table("feedback_systemprojects")]
+    public class SystemProjects
     {
         [Key]
         [Column("id")]
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        [Column("rolename")]
-        public string RoleName { get; set; } = string.Empty;
-
         [MaxLength(255)]
+        [Column("projectname")]
+        public string ProjectName { get; set; } = string.Empty;
+
+        [MaxLength(500)]
         [Column("description")]
         public string? Description { get; set; }
+
+        [ForeignKey("Company")]
+        [Column("companyid")]
+        public int? CompanyId { get; set; }
+
+        [MaxLength(50)]
+        [Column("version")]
+        public string? Version { get; set; }
 
         [Required]
         [Column("status")]
@@ -44,6 +53,7 @@ namespace CFDatabaseAccessLibrary.Models
         public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public virtual ICollection<UserRoles> UserRoles { get; set; } = new List<UserRoles>();
+        public virtual Companies? Company { get; set; }
+        public virtual ICollection<Feedbacks> Feedback { get; set; } = new List<Feedbacks>();
     }
 }

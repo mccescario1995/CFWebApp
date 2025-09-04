@@ -3,21 +3,27 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CFDatabaseAccessLibrary.Models
 {
-    [Table("feedback_roles")]
-    public class Roles
+    [Table("feedback_internalnotes")]
+    public class InternalNotes
     {
         [Key]
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        [Column("rolename")]
-        public string RoleName { get; set; } = string.Empty;
+        [ForeignKey("Feedback")]
+        [Column("feedbackid")]
+        public int FeedbackId { get; set; }
 
-        [MaxLength(255)]
-        [Column("description")]
-        public string? Description { get; set; }
+        [ForeignKey("CreatedByUser")]
+        [Column("createdbyuser")]
+        public int CreatedByUser { get; set; }
+
+        [Required]
+        [Column("notecontent")]
+        public string NoteContent { get; set; } = string.Empty;
+
+        [Column("isvisible")]
+        public byte IsVisible { get; set; } = 1; // For soft delete
 
         [Required]
         [Column("status")]
@@ -44,6 +50,7 @@ namespace CFDatabaseAccessLibrary.Models
         public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public virtual ICollection<UserRoles> UserRoles { get; set; } = new List<UserRoles>();
+        public virtual Feedbacks Feedback { get; set; } = null!;
+        public virtual Users CreatedByUserNavigation { get; set; } = null!;
     }
 }

@@ -3,36 +3,40 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CFDatabaseAccessLibrary.Models
 {
-    [Table("feedback_useraddresses")]
-    public class UserAddresses
+    [Table("feedback_attachments")]
+    public class FeedbackAttachments
     {
         [Key]
         [Column("id")]
         public int Id { get; set; }
 
-        [ForeignKey("UserProfile")]
-        [Column("userprofileid")]
-        public int UserProfileId { get; set; }
+        [ForeignKey("Feedback")]
+        [Column("feedbackid")]
+        public int FeedbackId { get; set; }
 
+        [Required]
         [MaxLength(255)]
-        [Column("streetaddress")]
-        public string? StreetAddress { get; set; }
+        [Column("filename")]
+        public string FileName { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(500)]
+        [Column("filepath")]
+        public string FilePath { get; set; } = string.Empty;
 
         [MaxLength(100)]
-        [Column("city")]
-        public string? City { get; set; }
+        [Column("mimetype")]
+        public string? MimeType { get; set; }
 
-        [MaxLength(100)]
-        [Column("stateprovince")]
-        public string? StateProvince { get; set; }
+        [Column("filesize")]
+        public long FileSize { get; set; }
 
-        [MaxLength(20)]
-        [Column("postalcode")]
-        public string? PostalCode { get; set; }
+        [ForeignKey("UploadedByUser")]
+        [Column("uploadedbyuserid")]
+        public int UploadedByUserId { get; set; }
 
-        [MaxLength(100)]
-        [Column("country")]
-        public string? Country { get; set; }
+        [Column("uploadedat")]
+        public DateTime UploadedAt { get; set; } = DateTime.UtcNow;
 
         [Required]
         [Column("status")]
@@ -59,6 +63,7 @@ namespace CFDatabaseAccessLibrary.Models
         public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public virtual UserProfiles UserProfile { get; set; } = null!;
+        public virtual Feedbacks Feedback { get; set; } = null!;
+        public virtual Users UploadedByUser { get; set; } = null!;
     }
 }

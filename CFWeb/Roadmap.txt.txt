@@ -1,0 +1,351 @@
+# Customer Feedback System - Updated Development Roadmap (Simplified - No Comments)
+
+## Current Project Status Analysis
+Based on your existing files:
+- ✅ **Backend**: ASP.NET Core 8 Web API project structure ready
+- ✅ **Frontend**: Nuxt 3 with @nuxt/ui configured  
+- ✅ **Database**: EF Core setup with SQL Server connection
+- ✅ **Models**: Database models created and migration ready
+- ✅ **Infrastructure**: Basic project structure in place
+
+## Phase 1: Project Foundation & Database Setup (Week 1)
+
+### 1.1 Backend Completion
+- [x] **ASP.NET Core 8 Web API project** *(Already created)*
+- [x] **Database Models & Context** *(Models exist, need DbContext completion)*
+- [ ] **Complete CFContext Configuration**
+  ```csharp
+  // Update CFDatabaseAccessLibrary/DataAccess/CFContext.cs
+  - Configure entity relationships
+  - Add proper foreign key configurations
+  - Remove comment-related DbSets (simplified approach)
+  ```
+
+- [ ] **Update Database Models**
+  - Remove FeedbackComments navigation properties (simplified approach)
+  - Focus on core entities: Users, Feedbacks, Companies, Departments
+  - Update models to match your simplified roadmap
+
+- [ ] **Controllers Folder Structure**
+  - Create Controllers folder (currently empty)
+  - Add base controller with common functionality
+  - Setup dependency injection for services
+
+### 1.2 Frontend Structure Update
+- [x] **Nuxt 3 project** *(Already created)*
+- [x] **@nuxt/ui configured** *(Already in nuxt.config.ts)*
+- [ ] **Install Additional Dependencies**
+  ```bash
+  npm install @sidebase/nuxt-auth bcryptjs
+  ```
+
+- [ ] **Update Nuxt Configuration**
+  ```typescript
+  // Update nuxt.config.ts
+  export default defineNuxtConfig({
+    compatibilityDate: '2025-07-15',
+    devtools: { enabled: true },
+    modules: ['@nuxt/ui', '@sidebase/nuxt-auth'],
+    auth: {
+      baseURL: 'http://localhost:7279/api/auth', // Your API URL
+      provider: {
+        type: 'local'
+      }
+    }
+  })
+  ```
+
+- [ ] **Create Layouts and Pages Structure**
+  ```
+  app/
+  ├── layouts/
+  │   ├── default.vue
+  │   ├── auth.vue
+  │   └── dashboard.vue
+  ├── pages/
+  │   ├── index.vue
+  │   ├── login.vue
+  │   └── register.vue
+  └── middleware/
+      └── auth.ts
+  ```
+
+### 1.3 Development Environment
+- [ ] **Configure Development Scripts**
+  - Update launchSettings.json for proper CORS
+  - Configure both projects to run simultaneously
+  - Test database connection with existing migration
+
+**Deliverables**: Fully configured development environment with working database connection
+
+---
+
+## Phase 2: Authentication System (Week 2)
+
+### 2.1 Backend Authentication (Using Your Models)
+- [ ] **Create AuthController**
+  ```csharp
+  // CFWeb/Controllers/AuthController.cs
+  - POST /api/auth/login
+  - POST /api/auth/register  
+  - GET /api/auth/profile
+  - POST /api/auth/logout
+  ```
+
+- [ ] **Create AuthService**
+  ```csharp
+  // Use your existing Users, UserProfiles, Roles models
+  - Password hashing with BCrypt
+  - JWT token generation
+  - Role-based claims
+  ```
+
+- [ ] **JWT Configuration**
+  - Update Program.cs with JWT middleware
+  - Configure authentication scheme
+  - Add authorization policies for roles
+
+### 2.2 Frontend Authentication
+- [ ] **Replace Default App.vue**
+  - Remove NuxtWelcome component
+  - Add proper layout structure
+  - Implement auth state checking
+
+- [ ] **Create Authentication Pages**
+  - `pages/login.vue` - Login form using your User model
+  - `pages/register.vue` - Registration using your complete user structure
+  - `pages/profile.vue` - Profile management with UserProfiles
+
+- [ ] **Auth Middleware**
+  - Role-based route protection
+  - Redirect logic based on user roles
+  - Session management
+
+**Deliverables**: Complete authentication with role-based access (Customer, Support, Admin)
+
+---
+
+## Phase 3: Customer Portal - Core Feedback System (Week 3)
+
+### 3.1 Backend - Feedback Management (Simplified)
+- [ ] **Create FeedbackController**
+  ```csharp
+  // CFWeb/Controllers/FeedbackController.cs
+  // Using your existing Feedbacks model (no comments)
+  - GET /api/feedback (role-based filtering)
+  - POST /api/feedback (customer submission)
+  - GET /api/feedback/{id} (feedback details)
+  - PUT /api/feedback/{id}/status (support updates only)
+  ```
+
+- [ ] **Create FeedbackService**
+  - Business logic for feedback submission
+  - Auto-assignment logic based on category
+  - Status workflow management
+  - Email notification service (basic)
+
+### 3.2 Customer Frontend
+- [ ] **Customer Dashboard** (`/customer`)
+  ```vue
+  // pages/customer/index.vue
+  - Overview of submitted feedback
+  - Recent status changes
+  - Quick statistics (total, open, resolved)
+  ```
+
+- [ ] **Feedback Submission** (`/customer/submit`)
+  ```vue
+  // pages/customer/submit.vue
+  // Using your Feedbacks model fields:
+  - Subject, Description, Priority, Category
+  - Form validation
+  - Success/error handling
+  ```
+
+- [ ] **My Feedback** (`/customer/feedback`)
+  ```vue
+  // pages/customer/feedback/index.vue
+  - List view with status filtering
+  - Search by subject/description
+  - Status color indicators
+  ```
+
+- [ ] **Feedback Details** (`/customer/feedback/[id]`)
+  ```vue
+  // pages/customer/feedback/[id].vue
+  - Full feedback display (read-only)
+  - Status timeline/history
+  - No comment section (simplified approach)
+  ```
+
+**Deliverables**: Working customer portal for feedback submission and tracking
+
+---
+
+## Phase 4: Support Portal (Week 4)
+
+### 4.1 Backend - Support Features
+- [ ] **Update FeedbackController for Support**
+  ```csharp
+  - PUT /api/feedback/{id}/assign (assignment management)
+  - PUT /api/feedback/{id}/status (with reason field)
+  - GET /api/feedback/queue (unassigned feedback)
+  - GET /api/feedback/assigned/{userId} (assigned to user)
+  ```
+
+- [ ] **Create Internal Notes System**
+  ```csharp
+  // Instead of comments, use separate internal notes
+  - InternalNotesController
+  - Internal notes not visible to customers
+  - Support team communication
+  ```
+
+### 4.2 Support Frontend
+- [ ] **Support Dashboard** (`/support`)
+  - Assigned feedback queue
+  - Priority indicators
+  - Response time metrics
+  - Status distribution charts
+
+- [ ] **Feedback Queue** (`/support/queue`)
+  - Unassigned feedback list
+  - Bulk assignment capabilities
+  - Priority-based sorting
+  - Category filtering
+
+- [ ] **Feedback Management** (`/support/feedback/[id]`)
+  - Status update interface with reason
+  - Internal notes (not visible to customer)
+  - Assignment management
+  - Customer contact information
+
+**Deliverables**: Complete support portal for feedback management
+
+---
+
+## Phase 5: Admin Portal & User Management (Week 5)
+
+### 5.1 Backend - Admin Features (Using Your Models)
+- [ ] **Create UsersController**
+  ```csharp
+  // Using your existing Users, UserProfiles, UserEmployments models
+  - Full CRUD operations
+  - Role assignment (using your Roles table)
+  - Company/Department associations
+  ```
+
+- [ ] **Create CompaniesController**
+  ```csharp
+  // Using your Companies and Departments models
+  - Company management
+  - Department management within companies
+  - User-company associations
+  ```
+
+### 5.2 Admin Frontend (Based on Your Template)
+- [ ] **Enhanced User Management** (`/admin/users`)
+  ```vue
+  // Extend your existing "Add User Template"
+  - List existing users
+  - Edit user details
+  - Role assignment interface
+  - Bulk operations
+  ```
+
+- [ ] **Company Management** (`/admin/companies`)
+  - Company CRUD operations
+  - Department management
+  - Employee assignments
+
+- [ ] **System Analytics** (`/admin/analytics`)
+  - Feedback trends
+  - Response time analytics
+  - User activity reports
+  - Status distribution
+
+**Deliverables**: Complete admin portal with user and company management
+
+---
+
+## Phase 6: Enhanced Features & Real-time Updates (Week 6)
+
+### 6.1 Real-time Features
+- [ ] **SignalR Integration**
+  - Real-time status notifications
+  - Live dashboard updates
+  - Assignment notifications
+
+- [ ] **Email Notifications**
+  - Status change alerts
+  - Assignment notifications
+  - Daily/weekly summaries
+
+### 6.2 Advanced UI Features
+- [ ] **Enhanced Dashboard Components**
+  - Interactive charts and metrics
+  - Advanced filtering and search
+  - Export functionality (PDF, CSV)
+
+- [ ] **Mobile Optimization**
+  - Responsive design improvements
+  - Touch-friendly interfaces
+  - Progressive Web App features
+
+**Deliverables**: Polished application with real-time features
+
+---
+
+## Phase 7: Testing, Security & Deployment (Week 7)
+
+### 7.1 Testing & Security
+- [ ] **Backend Testing**
+  - Unit tests for services
+  - API integration tests
+  - Security vulnerability testing
+
+- [ ] **Frontend Testing**
+  - Component testing
+  - E2E workflow testing
+  - Accessibility compliance
+
+### 7.2 Production Preparation
+- [ ] **Environment Configuration**
+  - Production connection strings
+  - Environment variables
+  - Deployment scripts
+
+- [ ] **Security Hardening**
+  - Input validation
+  - API rate limiting
+  - HTTPS enforcement
+
+**Deliverables**: Production-ready application
+
+---
+
+## Key Changes from Original Roadmap
+
+### Simplified Approach:
+- **No Comment System**: Focus on status updates and internal notes
+- **Streamlined UI**: Based on your existing Nuxt UI components
+- **Existing Models**: Leverage your complete database schema
+- **Email-based Communication**: Instead of real-time commenting
+
+### Your Existing Assets Utilized:
+- **Database Models**: All your existing models (Users, Feedbacks, Companies, etc.)
+- **Migration**: Your complete database structure
+- **Frontend Template**: Your "Add User Template" as a base
+- **Project Structure**: Both Nuxt and ASP.NET Core projects
+
+### Updated User Flows:
+1. **Customer Flow**: Submit → Track Status → Receive Email Notifications
+2. **Support Flow**: Review → Update Status → Add Internal Notes → Assign  
+3. **Admin Flow**: Manage Users → Companies → Analytics
+
+## Implementation Priority:
+**Phase 1-3 (3 weeks)**: Core customer feedback system
+**Phase 4-5 (2 weeks)**: Support and admin portals  
+**Phase 6-7 (2 weeks)**: Polish and production deployment
+
+This updated roadmap leverages your existing work and follows the simplified approach from your project documentation, focusing on efficient feedback management without complex commenting systems.

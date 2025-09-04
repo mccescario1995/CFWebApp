@@ -6,35 +6,56 @@ namespace CFDatabaseAccessLibrary.Models
     [Table("feedback_feedbacks")]
     public class Feedbacks
     {
-        [Required]
+        [Key]
         [Column("id")]
         public int Id { get; set; }
 
         [Required]
-        [Column("customerid")]
-        public int CustomerId { get; set; }
+        [MaxLength(255)]
+        [Column("title")]
+        public string Title { get; set; } = string.Empty;
 
         [Required]
-        [Column("subject", TypeName = "varchar(200)")]
-        public string Subject { get; set; }
+        [Column("description")]
+        public string Description { get; set; } = string.Empty;
 
-        [Required]
-        [Column("description", TypeName = "varchar(2000)")]
-        public string Description { get; set; }
+        [ForeignKey("SubmittedByUser")]
+        [Column("submittedbyuserid")]
+        public int SubmittedByUserId { get; set; }
 
-        [Required]
-        [Column("priority", TypeName = "varchar(20)")]
-        public string Priority { get; set; } = "Medium"; // Low, Medium, High, Critical
-
-        [Required]
-        [Column("feedbackstatus", TypeName = "varchar(20)")]
-        public string FeedbackStatus { get; set; } = "Open"; // Open, InProgress, Resolved, Closed
-
-        [Column("category", TypeName = "varchar(100)")]
-        public string Category { get; set; }
-
+        [ForeignKey("AssignedToUser")]
         [Column("assignedtouserid")]
         public int? AssignedToUserId { get; set; }
+
+        [ForeignKey("Category")]
+        [Column("categoryid")]
+        public int CategoryId { get; set; }
+
+        [ForeignKey("Priority")]
+        [Column("priorityid")]
+        public int PriorityId { get; set; }
+
+        [ForeignKey("FeedbackStatus")]
+        [Column("statusid")]
+        public int StatusId { get; set; }
+
+        [ForeignKey("SystemProject")]
+        [Column("systemprojectid")]
+        public int? SystemProjectId { get; set; }
+
+        [MaxLength(50)]
+        [Column("affectedversion")]
+        public string? AffectedVersion { get; set; }
+
+        [Column("submittedat")]
+        public DateTime SubmittedAt { get; set; } = DateTime.UtcNow;
+
+        [Column("resolvedat")]
+        public DateTime? ResolvedAt { get; set; }
+
+        [MaxLength(1000)]
+        [Column("resolutionnotes")]
+        public string? ResolutionNotes { get; set; }
 
         [Required]
         [Column("status")]
@@ -42,26 +63,33 @@ namespace CFDatabaseAccessLibrary.Models
 
         [Required]
         [Column("isdelete")]
-        public byte Isdelete { get; set; } = 0;
+        public byte IsDelete { get; set; } = 0;
 
         [Required]
         [Column("createdbyuserid")]
-        public int Createdbyuserid { get; set; }
+        public int CreatedByUserId { get; set; }
 
         [Required]
         [Column("createddate")]
-        public DateTime Createddate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         [Required]
-        [Column("modefiedbyuserid")]
-        public int Modefiedbyuserid { get; set; }
+        [Column("modifiedbyuserid")]
+        public int ModifiedByUserId { get; set; }
 
         [Required]
-        [Column("modefieddate")]
-        public DateTime Modefieddate { get; set; }
+        [Column("modifieddate")]
+        public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
-        public virtual Users Customer { get; set; }
-        public virtual Users AssignedToUser { get; set; }
-        public virtual ICollection<FeedbackComments> FeedbackComments { get; set; }
+        // Navigation properties
+        public virtual Users SubmittedByUser { get; set; } = null!;
+        public virtual Users? AssignedToUser { get; set; }
+        public virtual FeedbackCategories Category { get; set; } = null!;
+        public virtual FeedbackPriorities Priority { get; set; } = null!;
+        public virtual FeedbackStatuses FeedbackStatus { get; set; } = null!;
+        public virtual SystemProjects? SystemProject { get; set; }
+        public virtual ICollection<FeedbackStatusHistories> StatusHistory { get; set; } = new List<FeedbackStatusHistories>();
+        public virtual ICollection<FeedbackAttachments> Attachments { get; set; } = new List<FeedbackAttachments>();
+        public virtual ICollection<InternalNotes> InternalNotes { get; set; } = new List<InternalNotes>();
     }
 }

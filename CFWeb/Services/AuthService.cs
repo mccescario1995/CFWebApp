@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using CFWeb.DTOs.Auth;
+using CFDatabaseAccessLibrary.DTOs;
 using System.Security.Claims;
 using System.Text;
 
@@ -13,8 +13,8 @@ namespace CFWeb.Services
 {
     public interface IAuthService
     {
-        Task<AuthResponseDto?> LoginAsync(LoginDto loginDto);
-        Task<AuthResponseDto?> RegisterAsync(RegisterDto registerDto);
+        Task<AuthResponseDto?> LoginAsync(LoginRequestDto loginDto);
+        Task<AuthResponseDto?> RegisterAsync(RegisterRequestDto registerDto);
     }
     public class AuthService : IAuthService
     {
@@ -29,21 +29,21 @@ namespace CFWeb.Services
             _logger = logger;
         }
 
-        public async Task<AuthResponseDto?> LoginAsync(LoginDto loginDto)
+        public async Task<AuthResponseDto?> LoginAsync(LoginRequestDto loginDto)
         {
             _logger.LogInformation("The login Credentials From Auth Service {Credentials}", System.Text.Json.JsonSerializer.Serialize(loginDto));
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == loginDto.Email);
 
             if (user == null)
             {
-                _logger.LogWarning("Login failed: User with email {Email} not found.", loginDto.Username);
+                _logger.LogWarning("Login failed: User with email {Email} not found.", loginDto.Email);
                 return new AuthResponseDto { Success = false, Message = "Invalid username or password." };
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.Password))
+            if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
-                _logger.LogWarning("Login failed: Incorrect password for user {Email}.", loginDto.Username);
+                _logger.LogWarning("Login failed: Incorrect password for user {Email}.", loginDto.Email);
                 return new AuthResponseDto { Success = false, Message = "Invalid username or password." };
             }
 
@@ -53,14 +53,14 @@ namespace CFWeb.Services
             {
                 Success = true,
                 Token = token,
-                User = new UserDto { 
-                    Id = user.Id, 
+                User = new UserDto {
+                    UserId = user.Id, 
                     Email = user.Email 
                 }
             };
         }
 
-        public async Task<AuthResponseDto?> RegisterAsync(RegisterDto registerDto)
+        public async Task<AuthResponseDto?> RegisterAsync(RegisterRequestDto registerDto)
         {
             if (await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
             {
@@ -74,7 +74,7 @@ namespace CFWeb.Services
             var user = new Users
             {
                 Email = registerDto.Email,
-                Password = BCrypt.Net.BCrypt.HashPassword(registerDto.Password)
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password)
             };
 
             _context.Users.Add(user);
@@ -86,8 +86,8 @@ namespace CFWeb.Services
             {
                 Success = true,
                 Token = token,
-                User = new UserDto { 
-                    Id = user.Id, 
+                User = new UserDto {
+                    UserId = user.Id, 
                     Email = user.Email 
                     }
             };
@@ -95,7 +95,9 @@ namespace CFWeb.Services
 
         private string GenerateJwtToken(Users user)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Key"]!));
+            var key = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(_configuration["JwtSettings:Key"]!)
+            );
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
@@ -105,8 +107,8 @@ namespace CFWeb.Services
                 };
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:Issuer"],
-                audience: _configuration["JWT:Audience"],
+                issuer: _configuration["JwtSettings:Issuer"],
+                audience: _configuration["JwtSettings:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddDays(7),
                 signingCredentials: credentials

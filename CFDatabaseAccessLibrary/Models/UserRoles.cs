@@ -1,23 +1,30 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data;
 
 namespace CFDatabaseAccessLibrary.Models
 {
-    [Table("feedback_roles")]
-    public class Roles
+    [Table("feedback_userroles")]
+    public class UserRoles
     {
         [Key]
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        [Column("rolename")]
-        public string RoleName { get; set; } = string.Empty;
+        [ForeignKey("User")]
+        [Column("userid")]
+        public int UserId { get; set; }
 
-        [MaxLength(255)]
-        [Column("description")]
-        public string? Description { get; set; }
+        [ForeignKey("Role")]
+        [Column("roleid")]
+        public int RoleId { get; set; }
+
+        [Column("assignedat")]
+        public DateTime AssignedAt { get; set; } = DateTime.UtcNow;
+
+        [ForeignKey("AssignedByUser")]
+        [Column("assignedbyuserid")]
+        public int? AssignedByUserId { get; set; }
 
         [Required]
         [Column("status")]
@@ -44,6 +51,8 @@ namespace CFDatabaseAccessLibrary.Models
         public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public virtual ICollection<UserRoles> UserRoles { get; set; } = new List<UserRoles>();
+        public virtual Users User { get; set; } = null!;
+        public virtual Roles Role { get; set; } = null!;
+        public virtual Users? AssignedByUser { get; set; }
     }
 }

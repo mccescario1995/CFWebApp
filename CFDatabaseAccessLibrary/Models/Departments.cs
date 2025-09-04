@@ -6,22 +6,22 @@ namespace CFDatabaseAccessLibrary.Models
     [Table("feedback_departments")]
     public class Departments
     {
-        [Required]
+        [Key]
         [Column("id")]
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(100)]
+        [Column("departmentname")]
+        public string DepartmentName { get; set; } = string.Empty;
+
+        [MaxLength(500)]
+        [Column("description")]
+        public string? Description { get; set; }
+
+        [ForeignKey("Company")]
         [Column("companyid")]
         public int? CompanyId { get; set; }
-
-        [Required]
-        [Column("departmentname", TypeName = "varchar(100)")]
-        public string DepartmentName { get; set; }
-
-        [Column("departmentcode", TypeName = "varchar(20)")]
-        public string DepartmentCode { get; set; }
-
-        [Column("manageruserid")]
-        public int? ManagerUserId { get; set; }
 
         [Required]
         [Column("status")]
@@ -29,26 +29,26 @@ namespace CFDatabaseAccessLibrary.Models
 
         [Required]
         [Column("isdelete")]
-        public byte Isdelete { get; set; } = 0;
+        public byte IsDelete { get; set; } = 0;
 
         [Required]
         [Column("createdbyuserid")]
-        public int Createdbyuserid { get; set; }
+        public int CreatedByUserId { get; set; }
 
         [Required]
         [Column("createddate")]
-        public DateTime Createddate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         [Required]
-        [Column("modefiedbyuserid")]
-        public int Modefiedbyuserid { get; set; }
+        [Column("modifiedbyuserid")]
+        public int ModifiedByUserId { get; set; }
 
         [Required]
-        [Column("modefieddate")]
-        public DateTime Modefieddate { get; set; }
+        [Column("modifieddate")]
+        public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
-        public virtual Companies Company { get; set; }
-        public virtual Users ManagerUser { get; set; }
-        public virtual ICollection<UserEmployments> UserEmployments { get; set; }
+        // Navigation properties
+        public virtual Companies? Company { get; set; }
+        public virtual ICollection<UserEmployments> UserEmployments { get; set; } = new List<UserEmployments>();
     }
 }

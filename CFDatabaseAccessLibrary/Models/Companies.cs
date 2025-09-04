@@ -6,27 +6,31 @@ namespace CFDatabaseAccessLibrary.Models
     [Table("feedback_companies")]
     public class Companies
     {
-        [Required]
+        [Key]
         [Column("id")]
         public int Id { get; set; }
 
         [Required]
-        [Column("companyname", TypeName = "varchar(200)")]
-        public string CompanyName { get; set; }
+        [MaxLength(255)]
+        [Column("companyname")]
+        public string CompanyName { get; set; } = string.Empty;
 
-        [Required]
-        [Column("companycode", TypeName = "varchar(50)")]
-        public string CompanyCode { get; set; }
+        [MaxLength(500)]
+        [Column("description")]
+        public string? Description { get; set; }
 
-        [Column("industry", TypeName = "varchar(100)")]
-        public string Industry { get; set; }
+        [MaxLength(255)]
+        [Column("website")]
+        public string? Website { get; set; }
 
-        [Column("companysize", TypeName = "varchar(50)")]
-        public string CompanySize { get; set; } // Small, Medium, Large, Enterprise
+        [MaxLength(15)]
+        [Column("phonenumber")]
+        public string? PhoneNumber { get; set; }
 
-        [Column("website", TypeName = "varchar(255)")]
-        [Url]
-        public string Website { get; set; }
+        [MaxLength(255)]
+        [EmailAddress]
+        [Column("email")]
+        public string? Email { get; set; }
 
         [Required]
         [Column("status")]
@@ -34,25 +38,27 @@ namespace CFDatabaseAccessLibrary.Models
 
         [Required]
         [Column("isdelete")]
-        public byte Isdelete { get; set; } = 0;
+        public byte IsDelete { get; set; } = 0;
 
         [Required]
         [Column("createdbyuserid")]
-        public int Createdbyuserid { get; set; }
+        public int CreatedByUserId { get; set; }
 
         [Required]
         [Column("createddate")]
-        public DateTime Createddate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         [Required]
-        [Column("modefiedbyuserid")]
-        public int Modefiedbyuserid { get; set; }
+        [Column("modifiedbyuserid")]
+        public int ModifiedByUserId { get; set; }
 
         [Required]
-        [Column("modefieddate")]
-        public DateTime Modefieddate { get; set; }
+        [Column("modifieddate")]
+        public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
-        public virtual ICollection<UserEmployments> UserEmployments { get; set; }
-        public virtual ICollection<Departments> Departments { get; set; }
+        // Navigation properties
+        public virtual ICollection<UserProfiles> UserProfiles { get; set; } = new List<UserProfiles>();
+        public virtual ICollection<Departments> Departments { get; set; } = new List<Departments>();
+        public virtual ICollection<SystemProjects> SystemProjects { get; set; } = new List<SystemProjects>();
     }
 }

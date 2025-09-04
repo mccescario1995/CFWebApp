@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CFDatabaseAccessLibrary.Models
 {
-    [Table("feedback_roles")]
-    public class Roles
+    [Table("feedback_priorities")]
+    public class FeedbackPriorities
     {
         [Key]
         [Column("id")]
@@ -12,12 +12,20 @@ namespace CFDatabaseAccessLibrary.Models
 
         [Required]
         [MaxLength(50)]
-        [Column("rolename")]
-        public string RoleName { get; set; } = string.Empty;
+        [Column("priorityname")]
+        public string PriorityName { get; set; } = string.Empty;
 
-        [MaxLength(255)]
+        [Required]
+        [Column("prioritylevel")]
+        public int PriorityLevel { get; set; } // 1 = Highest, 5 = Lowest
+
+        [MaxLength(500)]
         [Column("description")]
         public string? Description { get; set; }
+
+        [MaxLength(7)]
+        [Column("colorcode")]
+        public string? ColorCode { get; set; } // For UI color coding
 
         [Required]
         [Column("status")]
@@ -44,6 +52,6 @@ namespace CFDatabaseAccessLibrary.Models
         public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public virtual ICollection<UserRoles> UserRoles { get; set; } = new List<UserRoles>();
+        public virtual ICollection<Feedbacks> Feedback { get; set; } = new List<Feedbacks>();
     }
 }

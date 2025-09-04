@@ -6,22 +6,37 @@ namespace CFDatabaseAccessLibrary.Models
     [Table("feedback_users")]
     public class Users
     {
-        [Required]
+        [Key]
         [Column("id")]
         public int Id { get; set; }
 
         [Required]
-        [Column("email", TypeName = "varchar(50)")]
+        [MaxLength(100)]
+        [Column("firstname")]
+        public string FirstName { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(100)]
+        [Column("lastname")]
+        public string LastName { get; set; } = string.Empty;
+
+        [Required]
+        [MaxLength(255)]
         [EmailAddress]
-        public string Email { get; set; }
+        [Column("email")]
+        public string Email { get; set; } = string.Empty;
 
         [Required]
-        [Column("password", TypeName = "varchar(20)")]
-        public string Password { get; set; }
+        [MaxLength(255)]
+        [Column("passwordhash")]
+        public string PasswordHash { get; set; } = string.Empty;
 
-        [Required]
-        [Column("roleid")]
-        public int RoleId { get; set; }
+        [MaxLength(15)]
+        [Column("phonenumber")]
+        public string? PhoneNumber { get; set; }
+
+        [Column("lastloginat")]
+        public DateTime? LastLoginAt { get; set; }
 
         [Required]
         [Column("status")]
@@ -29,29 +44,31 @@ namespace CFDatabaseAccessLibrary.Models
 
         [Required]
         [Column("isdelete")]
-        public byte Isdelete { get; set; } = 0;
+        public byte IsDelete { get; set; } = 0;
 
         [Required]
         [Column("createdbyuserid")]
-        public int Createdbyuserid { get; set; }
+        public int CreatedByUserId { get; set; }
 
         [Required]
         [Column("createddate")]
-        public DateTime Createddate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 
         [Required]
-        [Column("modefiedbyuserid")]
-        public int Modefiedbyuserid { get; set; }
+        [Column("modifiedbyuserid")]
+        public int ModifiedByUserId { get; set; }
 
         [Required]
-        [Column("modefieddate")]
-        public DateTime Modefieddate { get; set; }
+        [Column("modifieddate")]
+        public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
-        public virtual Roles Role { get; set; }
-        public virtual UserProfiles UserProfile { get; set; }
-        public virtual UserEmployments UserEmployment { get; set; }
-        public virtual ICollection<UserAddresses> UserAddresses { get; set; }
-        public virtual ICollection<Feedbacks> Feedbacks { get; set; }
+        // Navigation properties
+        public virtual UserProfiles? UserProfile { get; set; }
+        public virtual ICollection<Feedbacks> SubmittedFeedback { get; set; } = new List<Feedbacks>();
+        public virtual ICollection<Feedbacks> AssignedFeedback { get; set; } = new List<Feedbacks>();
+        public virtual ICollection<UserRoles> UserRoles { get; set; } = new List<UserRoles>();
+        public virtual ICollection<InternalNotes> InternalNotes { get; set; } = new List<InternalNotes>();
+        public virtual ICollection<FeedbackStatusHistories> StatusHistories { get; set; } = new List<FeedbackStatusHistories>();
 
     }
 }

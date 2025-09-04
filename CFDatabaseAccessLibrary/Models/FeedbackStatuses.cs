@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CFDatabaseAccessLibrary.Models
 {
-    [Table("feedback_roles")]
-    public class Roles
+    [Table("feedback_statuses")]
+    public class FeedbackStatuses
     {
         [Key]
         [Column("id")]
@@ -12,12 +12,22 @@ namespace CFDatabaseAccessLibrary.Models
 
         [Required]
         [MaxLength(50)]
-        [Column("rolename")]
-        public string RoleName { get; set; } = string.Empty;
+        [Column("statusname")]
+        public string StatusName { get; set; } = string.Empty;
 
-        [MaxLength(255)]
+        [MaxLength(500)]
         [Column("description")]
         public string? Description { get; set; }
+
+        [MaxLength(7)]
+        [Column("colorcode")]
+        public string? ColorCode { get; set; } // For UI color coding
+
+        [Column("isdefault")]
+        public byte IsDefault { get; set; } = 0;
+
+        [Column("isfinalstatus")]
+        public byte IsFinalStatus { get; set; } = 0; // Marks if this is a closing status
 
         [Required]
         [Column("status")]
@@ -44,6 +54,7 @@ namespace CFDatabaseAccessLibrary.Models
         public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
         // Navigation properties
-        public virtual ICollection<UserRoles> UserRoles { get; set; } = new List<UserRoles>();
+        public virtual ICollection<Feedbacks> Feedback { get; set; } = new List<Feedbacks>();
+        public virtual ICollection<FeedbackStatusHistories> StatusHistories { get; set; } = new List<FeedbackStatusHistories>();
     }
 }
